@@ -1,0 +1,172 @@
+import { useState, useEffect } from 'react'
+import { AuthProvider, useAuth } from './hooks/useAuth'
+import { signOut } from './lib/auth'
+import LandingPage from './components/LandingPage'
+import TeacherDashboard from './components/TeacherDashboard'
+import AuthScreen from './components/AuthScreen'
+import ParentDashboard from './components/ParentDashboard'
+import { LogOut, User, AlertCircle, X } from 'lucide-react'
+
+function AppContent() {
+  const { user, profile, loading } = useAuth()
+  const [screen, setScreen] = useState('landing')
+  const [showAuth, setShowAuth] = useState(false)
+  const [authError, setAuthError] = useState(null)
+
+  // Handle auth callback (magic link redirect)
+  useEffect(() => {
+    const hash = window.location.hash
+    const params = new URLSearchParams(hash.substring(1))
+
+    // Check for errors in the hash (from failed magic links)
+    const error = params.get('error')
+    const errorDescription = params.get('error_description')
+
+    if (error) {
+      console.error('Auth error:', error, errorDescription)
+      setAuthError(errorDescription?.replace(/\+/g, ' ') || 'Authentication failed')
+      // Clear the hash
+      window.history.replaceState(null, '', window.location.pathname)
+    } else if (hash && hash.includes('access_token')) {
+      // Success - Supabase client will auto-detect and process the tokens
+      // Clear the hash after a brief delay to let Supabase process
+      setTimeout(() => {
+        window.history.replaceState(null, '', window.location.pathname)
+      }, 100)
+    }
+  }, [])
+
+  // Auto-route based on user role
+  useEffect(() => {
+    if (profile) {
+      if (profile.role === 'teacher' || profile.role === 'admin') {
+        setScreen('teacher')
+      } else if (profile.role === 'parent') {
+        setScreen('parent')
+      }
+      setShowAuth(false)
+    }
+  }, [profile])
+
+  const handleSignOut = async () => {
+    await signOut()
+    setScreen('landing')
+  }
+
+  const handleSelectRole = (role) => {
+    if (user) {
+      // Already logged in, go directly to dashboard
+      setScreen(role)
+    } else {
+      // Need to login first
+      setShowAuth(true)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-amber-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-3 border-violet-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (showAuth) {
+    return (
+      <AuthScreen
+        onBack={() => setShowAuth(false)}
+        onSuccess={() => setShowAuth(false)}
+      />
+    )
+  }
+
+  // Auth error banner component
+  const AuthErrorBanner = () => {
+    if (!authError) return null
+    return (
+      <div className="fixed top-4 left-4 right-4 z-50 max-w-md mx-auto">
+        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-3 shadow-lg">
+          <AlertCircle size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="text-red-800 font-medium text-sm">Sign in failed</p>
+            <p className="text-red-600 text-sm mt-1">{authError}</p>
+            <button
+              onClick={() => setShowAuth(true)}
+              className="text-red-700 font-medium text-sm mt-2 hover:underline"
+            >
+              Try again
+            </button>
+          </div>
+          <button
+            onClick={() => setAuthError(null)}
+            className="text-red-400 hover:text-red-600"
+          >
+            <X size={18} />
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // User header component
+  const UserHeader = () => {
+    if (!user) return null
+    return (
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <div className="bg-white shadow-lg rounded-full px-3 py-1.5 flex items-center gap-2 text-sm">
+          <User size={16} className="text-violet-500" />
+          <span className="text-gray-700 max-w-[120px] truncate">{profile?.email || user.email}</span>
+          <button
+            onClick={handleSignOut}
+            className="p-1 hover:bg-gray-100 rounded-full"
+            title="Sign out"
+          >
+            <LogOut size={14} className="text-gray-400" />
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  switch (screen) {
+    case 'teacher':
+      return (
+        <>
+          <AuthErrorBanner />
+          <UserHeader />
+          <TeacherDashboard onBack={() => setScreen('landing')} />
+        </>
+      )
+    case 'parent':
+      return (
+        <>
+          <AuthErrorBanner />
+          <UserHeader />
+          <ParentDashboard onBack={() => setScreen('landing')} />
+        </>
+      )
+    default:
+      return (
+        <>
+          <AuthErrorBanner />
+          <UserHeader />
+          <LandingPage
+            onSelectRole={handleSelectRole}
+            user={user}
+            profile={profile}
+          />
+        </>
+      )
+  }
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
+}
