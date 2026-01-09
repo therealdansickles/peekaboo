@@ -1,7 +1,7 @@
 # Peekaboo - Project Status & Handoff Document
 
 **Last Updated**: January 9, 2026
-**Status**: Mobile app running in iOS Simulator, ready for App Store preparation
+**Status**: iOS app rebuilt with splash screen fix, ready for Supabase config + testing
 
 ---
 
@@ -23,18 +23,19 @@ A secure preschool photo sharing app where:
 - [x] Parent view with RLS-protected photo access
 - [x] Magic link authentication (passwordless)
 - [x] Real-time photo updates via Supabase subscriptions
-- [x] iOS app builds and runs in simulator (showing black screen - needs debugging)
+- [x] iOS app builds in Xcode (black screen fix applied - see below)
 - [x] Android project configured (not yet tested)
+- [x] Code pushed to GitHub: https://github.com/therealdansickles/peekaboo
 
 ### What Needs Work
-- [ ] Debug iOS app black screen issue
-- [ ] Add `https://peekaboo.photos` to Supabase redirect URLs
-- [ ] Add `peekaboo://auth-callback` to Supabase redirect URLs (for mobile deep links)
+- [ ] **NEXT: Configure Supabase redirect URLs** (see instructions below)
+- [ ] **NEXT: Test iOS app in simulator** (see instructions below)
 - [ ] Create app icons and splash screens
 - [ ] Test on physical iOS device
 - [ ] Submit to App Store (TestFlight first)
 - [ ] Submit to Google Play Store
-- [ ] Create user documentation
+- [ ] Create in-app Help component
+- [ ] Write user documentation on Notion
 
 ---
 
@@ -138,33 +139,75 @@ npm run build && npx cap sync  # Rebuild and sync to native
 
 ---
 
-## Supabase Configuration Needed
+## STEP 1: Configure Supabase Redirect URLs
 
-Go to: https://supabase.com/dashboard/project/weuhristvbhcehfwymsz/auth/url-configuration
+**This must be done before mobile auth will work.**
 
-**Site URL**: `https://peekaboo.photos`
+1. Open the Supabase Auth URL Configuration page:
+   https://supabase.com/dashboard/project/weuhristvbhcehfwymsz/auth/url-configuration
 
-**Redirect URLs** (add all of these):
-- `https://peekaboo.photos`
-- `https://peekaboo-virid.vercel.app`
-- `http://localhost:3000`
-- `http://localhost:5173`
-- `peekaboo://auth-callback` (for mobile app deep links)
+2. Set **Site URL** to:
+   ```
+   https://peekaboo.photos
+   ```
+
+3. In the **Redirect URLs** section, click "Add URL" and add each of these:
+   ```
+   https://peekaboo.photos
+   https://peekaboo-virid.vercel.app
+   http://localhost:5173
+   http://localhost:3000
+   peekaboo://auth-callback
+   ```
+
+   **Important**: The `peekaboo://auth-callback` URL is required for magic link auth to work on mobile devices.
+
+4. Click **Save** at the bottom of the page.
 
 ---
 
-## iOS App - Current Issue
+## STEP 2: Test iOS App in Simulator
 
-The app builds and runs but shows a **black screen**. Possible causes:
-1. Web assets not loading properly
-2. Splash screen not dismissing
-3. WKWebView configuration issue
+The black screen issue was caused by the Capacitor splash screen not dismissing automatically. This has been fixed by adding `SplashScreen.hide()` in `/src/main.jsx`.
 
-**To debug**:
-1. Open Xcode: `npx cap open ios`
-2. Run on simulator
-3. Open Safari → Develop → Simulator → inspect the web view
-4. Check console for JavaScript errors
+**To test the fix:**
+
+1. Open Terminal and run:
+   ```bash
+   cd /Users/dansickles/peekaboo
+   npm run build && npx cap sync ios
+   npx cap open ios
+   ```
+
+2. In Xcode:
+   - Select an iPhone simulator from the device dropdown (e.g., "iPhone 15")
+   - Press `Cmd+R` to build and run
+
+3. **Expected result**: You should see the Peekaboo landing page with "I'm a Teacher" and "I'm a Parent" buttons (instead of a black screen).
+
+4. **If you still see a black screen**, debug with Safari:
+   - Open Safari on your Mac
+   - Go to Safari menu → Settings → Advanced → Enable "Show Develop menu in menu bar"
+   - With the simulator running, go to Develop → Simulator → select the web view
+   - Check the Console tab for JavaScript errors
+
+---
+
+## iOS App - Black Screen Fix Applied
+
+**What was the issue?**
+Capacitor's splash screen plugin was configured but never dismissed, leaving a permanent overlay.
+
+**The fix (already applied):**
+Added `SplashScreen.hide()` call in `/src/main.jsx`:
+```javascript
+import { SplashScreen } from '@capacitor/splash-screen'
+
+// Hide splash screen when app is ready
+SplashScreen.hide().catch(() => {
+  // Ignore errors on web (splash screen is native only)
+})
+```
 
 ---
 
@@ -185,12 +228,12 @@ The app builds and runs but shows a **black screen**. Possible causes:
 
 ## Next Session Priorities
 
-1. **Fix iOS black screen** - Debug why app isn't rendering
-2. **Add Supabase redirect URLs** - Add `peekaboo://auth-callback` for mobile auth
-3. **Test full mobile flow** - Sign in, view photos, test camera
-4. **Create app assets** - Icons, splash screen, screenshots
-5. **TestFlight submission** - Get iOS app to testers
-6. **Documentation** - In-app help + Notion guides
+1. **Configure Supabase redirect URLs** - Follow STEP 1 above (required for mobile auth)
+2. **Test iOS app in simulator** - Follow STEP 2 above (black screen fix already applied)
+3. **Test full mobile flow** - Sign in with magic link, view photos, test camera
+4. **Create app assets** - Icons, splash screen, screenshots for App Store
+5. **TestFlight submission** - Get iOS app to beta testers
+6. **Documentation** - In-app Help component + Notion guides for teachers/parents
 
 ---
 
@@ -221,6 +264,31 @@ The app builds and runs but shows a **black screen**. Possible causes:
 - [Supabase Auth Docs](https://supabase.com/docs/guides/auth)
 - [App Store Connect](https://appstoreconnect.apple.com)
 - [Google Play Console](https://play.google.com/console)
+
+---
+
+## Quick Resume Commands
+
+When starting a new session, run these to get back up to speed:
+
+```bash
+# Navigate to project
+cd /Users/dansickles/peekaboo
+
+# Pull latest changes
+git pull origin main
+
+# Install dependencies (if needed)
+npm install
+
+# Build and sync to iOS
+npm run build && npx cap sync ios
+
+# Open Xcode
+npx cap open ios
+```
+
+Then in Xcode, press `Cmd+R` to run on simulator.
 
 ---
 
