@@ -1,0 +1,22 @@
+{
+  "appId": "com.peekaboo.app",
+  "appName": "Peekaboo",
+  "webDir": "dist",
+  "ios": {
+    "scheme": "peekaboo"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#8b5cf6",
+      "showSpinner": false
+    },
+    "Keyboard": {
+      "resize": "body",
+      "resizeOnFullScreen": true
+    }
+  }
+}

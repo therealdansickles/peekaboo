@@ -1,11 +1,21 @@
 import { supabase } from './supabase'
+import { Capacitor } from '@capacitor/core'
+
+// Get the appropriate redirect URL for the platform
+function getRedirectUrl() {
+  // On native mobile, use deep link scheme
+  if (Capacitor.isNativePlatform()) {
+    return 'peekaboo://auth-callback'
+  }
+  // On web, use the current origin
+  return window.location.origin
+}
 
 // Send magic link to email
 export async function sendMagicLink(email) {
   if (!supabase) throw new Error('Supabase not configured')
 
-  // Use origin directly - simpler and more reliable
-  const redirectUrl = window.location.origin
+  const redirectUrl = getRedirectUrl()
 
   const { error } = await supabase.auth.signInWithOtp({
     email,

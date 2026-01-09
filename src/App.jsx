@@ -6,6 +6,9 @@ import TeacherDashboard from './components/TeacherDashboard'
 import AuthScreen from './components/AuthScreen'
 import ParentDashboard from './components/ParentDashboard'
 import { LogOut, User, AlertCircle, X } from 'lucide-react'
+import { App as CapacitorApp } from '@capacitor/app'
+import { Capacitor } from '@capacitor/core'
+import { supabase } from './lib/supabase'
 
 function AppContent() {
   const { user, profile, loading } = useAuth()
@@ -13,8 +16,9 @@ function AppContent() {
   const [showAuth, setShowAuth] = useState(false)
   const [authError, setAuthError] = useState(null)
 
-  // Handle auth callback (magic link redirect)
+  // Handle auth callback (magic link redirect) - web and mobile
   useEffect(() => {
+    // Web: Handle URL hash tokens
     const hash = window.location.hash
     const params = new URLSearchParams(hash.substring(1))
 
@@ -33,6 +37,48 @@ function AppContent() {
       setTimeout(() => {
         window.history.replaceState(null, '', window.location.pathname)
       }, 100)
+    }
+
+    // Mobile: Handle deep link auth callbacks
+    if (Capacitor.isNativePlatform()) {
+      CapacitorApp.addListener('appUrlOpen', async ({ url }) => {
+        console.log('Deep link received:', url)
+
+        // Parse the URL for auth tokens
+        if (url.includes('auth-callback')) {
+          try {
+            // Extract tokens from the URL
+            const urlObj = new URL(url)
+            const fragment = urlObj.hash.substring(1)
+            const fragmentParams = new URLSearchParams(fragment)
+
+            const accessToken = fragmentParams.get('access_token')
+            const refreshToken = fragmentParams.get('refresh_token')
+
+            if (accessToken && refreshToken && supabase) {
+              // Set the session manually
+              const { error } = await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken
+              })
+
+              if (error) {
+                console.error('Session error:', error)
+                setAuthError('Failed to complete sign in')
+              }
+            }
+          } catch (err) {
+            console.error('Deep link parse error:', err)
+            setAuthError('Failed to process sign in link')
+          }
+        }
+      })
+    }
+
+    return () => {
+      if (Capacitor.isNativePlatform()) {
+        CapacitorApp.removeAllListeners()
+      }
     }
   }, [])
 
