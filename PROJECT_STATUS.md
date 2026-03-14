@@ -1,7 +1,7 @@
 # Peekaboo - Project Status & Handoff Document
 
-**Last Updated**: March 14, 2026
-**Status**: 90% Ready for App Store Launch - See CEO Briefing
+**Last Updated**: March 14, 2026 (Evening)
+**Status**: 95% Ready for App Store Launch - See CEO Briefing
 
 ---
 
@@ -43,6 +43,17 @@ A secure preschool photo sharing app where:
 - [x] **Privacy Policy** (docs/PRIVACY_POLICY.md)
 - [x] **Terms of Service** (docs/TERMS_OF_SERVICE.md)
 - [x] **Founder blog post** (docs/BLOG_WHY_WE_BUILT_PEEKABOO.md)
+- [x] **Press Release** (docs/PRESS_RELEASE.md)
+- [x] **FAQ** (docs/FAQ.md)
+- [x] **In-App Help Content** (docs/IN_APP_HELP.md)
+- [x] **Social Media Profiles** (docs/SOCIAL_MEDIA_PROFILES.md)
+- [x] **Referral Program** (docs/REFERRAL_PROGRAM.md)
+- [x] **Review Solicitation Strategy** (docs/REVIEW_SOLICITATION.md)
+- [x] **Analytics Guide** (docs/ANALYTICS_GUIDE.md)
+- [x] **In-app review prompt** (useAppReview hook)
+- [x] **Analytics integration** (PostHog, privacy-first)
+- [x] **Error tracking** (Sentry, production-only)
+- [x] **ESLint clean** (0 errors, 1 acceptable warning)
 
 ### BLOCKERS - Must Fix Before Launch
 - [ ] **Configure Supabase redirect URLs** (15 min) - See instructions below
@@ -50,9 +61,9 @@ A secure preschool photo sharing app where:
 
 ### Before Public Launch
 - [ ] Submit to TestFlight (1-2 days Apple review)
-- [ ] Add in-app review prompt
-- [ ] Add analytics (PostHog or Mixpanel)
-- [ ] Add error tracking (Sentry)
+- [x] Add in-app review prompt (✅ useAppReview hook - triggers after 3 photo views)
+- [x] Add analytics (✅ PostHog - privacy-first, no PII)
+- [x] Add error tracking (✅ Sentry - production-only, PII filtered)
 
 ### Post-Launch Improvements
 - [ ] Push notifications for new photos
@@ -251,12 +262,13 @@ SplashScreen.hide().catch(() => {
 
 ## Next Session Priorities
 
-1. **Configure Supabase redirect URLs** - Follow STEP 1 above (required for mobile auth)
-2. **Test iOS app in simulator** - Follow STEP 2 above (black screen fix already applied)
-3. **Test full mobile flow** - Sign in with magic link, view photos, test camera
-4. **Create app assets** - Icons, splash screen, screenshots for App Store
-5. **TestFlight submission** - Get iOS app to beta testers
-6. **Documentation** - In-app Help component + Notion guides for teachers/parents
+1. **Configure Supabase redirect URLs** - Follow STEP 1 above (required for mobile auth) ⚠️ BLOCKING
+2. **Test iOS app in simulator** - Follow STEP 2 above (black screen fix already applied) ⚠️ BLOCKING
+3. **TestFlight submission** - Get iOS app to beta testers
+4. **Create App Store screenshots** - Requires running app
+5. **Optional: 30-second app preview video**
+
+**Note**: In-app help content, analytics, error tracking, and comprehensive documentation are all complete. See `docs/` for all assets.
 
 ---
 
