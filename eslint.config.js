@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'android', 'ios', 'node_modules', 'test-*.js']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -23,7 +23,11 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', ignoreRestSiblings: true }],
+      // Allow mixed exports (component + hook) for auth providers
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      // Allow early-return setState in effects (valid pattern for initial state)
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ])

@@ -10,6 +10,54 @@ import { App as CapacitorApp } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
 import { supabase } from './lib/supabase'
 
+// Auth error banner component (moved outside render)
+function AuthErrorBanner({ authError, setAuthError, setShowAuth }) {
+  if (!authError) return null
+  return (
+    <div className="fixed top-4 left-4 right-4 z-50 max-w-md mx-auto">
+      <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-3 shadow-lg">
+        <AlertCircle size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
+        <div className="flex-1">
+          <p className="text-red-800 font-medium text-sm">Sign in failed</p>
+          <p className="text-red-600 text-sm mt-1">{authError}</p>
+          <button
+            onClick={() => setShowAuth(true)}
+            className="text-red-700 font-medium text-sm mt-2 hover:underline"
+          >
+            Try again
+          </button>
+        </div>
+        <button
+          onClick={() => setAuthError(null)}
+          className="text-red-400 hover:text-red-600"
+        >
+          <X size={18} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// User header component (moved outside render)
+function UserHeader({ user, profile, onSignOut }) {
+  if (!user) return null
+  return (
+    <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+      <div className="bg-white shadow-lg rounded-full px-3 py-1.5 flex items-center gap-2 text-sm">
+        <User size={16} className="text-violet-500" />
+        <span className="text-gray-700 max-w-[120px] truncate">{profile?.email || user.email}</span>
+        <button
+          onClick={onSignOut}
+          className="p-1 hover:bg-gray-100 rounded-full"
+          title="Sign out"
+        >
+          <LogOut size={14} className="text-gray-400" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function AppContent() {
   const { user, profile, loading } = useAuth()
   const [screen, setScreen] = useState('landing')
@@ -124,56 +172,7 @@ function AppContent() {
     return (
       <AuthScreen
         onBack={() => setShowAuth(false)}
-        onSuccess={() => setShowAuth(false)}
       />
-    )
-  }
-
-  // Auth error banner component
-  const AuthErrorBanner = () => {
-    if (!authError) return null
-    return (
-      <div className="fixed top-4 left-4 right-4 z-50 max-w-md mx-auto">
-        <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 flex items-start gap-3 shadow-lg">
-          <AlertCircle size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <p className="text-red-800 font-medium text-sm">Sign in failed</p>
-            <p className="text-red-600 text-sm mt-1">{authError}</p>
-            <button
-              onClick={() => setShowAuth(true)}
-              className="text-red-700 font-medium text-sm mt-2 hover:underline"
-            >
-              Try again
-            </button>
-          </div>
-          <button
-            onClick={() => setAuthError(null)}
-            className="text-red-400 hover:text-red-600"
-          >
-            <X size={18} />
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  // User header component
-  const UserHeader = () => {
-    if (!user) return null
-    return (
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
-        <div className="bg-white shadow-lg rounded-full px-3 py-1.5 flex items-center gap-2 text-sm">
-          <User size={16} className="text-violet-500" />
-          <span className="text-gray-700 max-w-[120px] truncate">{profile?.email || user.email}</span>
-          <button
-            onClick={handleSignOut}
-            className="p-1 hover:bg-gray-100 rounded-full"
-            title="Sign out"
-          >
-            <LogOut size={14} className="text-gray-400" />
-          </button>
-        </div>
-      </div>
     )
   }
 
@@ -181,24 +180,24 @@ function AppContent() {
     case 'teacher':
       return (
         <>
-          <AuthErrorBanner />
-          <UserHeader />
+          <AuthErrorBanner authError={authError} setAuthError={setAuthError} setShowAuth={setShowAuth} />
+          <UserHeader user={user} profile={profile} onSignOut={handleSignOut} />
           <TeacherDashboard onBack={() => setScreen('landing')} />
         </>
       )
     case 'parent':
       return (
         <>
-          <AuthErrorBanner />
-          <UserHeader />
+          <AuthErrorBanner authError={authError} setAuthError={setAuthError} setShowAuth={setShowAuth} />
+          <UserHeader user={user} profile={profile} onSignOut={handleSignOut} />
           <ParentDashboard onBack={() => setScreen('landing')} />
         </>
       )
     default:
       return (
         <>
-          <AuthErrorBanner />
-          <UserHeader />
+          <AuthErrorBanner authError={authError} setAuthError={setAuthError} setShowAuth={setShowAuth} />
+          <UserHeader user={user} profile={profile} onSignOut={handleSignOut} />
           <LandingPage
             onSelectRole={handleSelectRole}
             user={user}

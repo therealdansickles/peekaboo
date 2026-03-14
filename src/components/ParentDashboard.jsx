@@ -7,7 +7,7 @@ import PhotoCard from './PhotoCard'
 import HelpModal from './HelpModal'
 
 export default function ParentDashboard({ onBack }) {
-  const { profile } = useAuth()
+  useAuth() // Check auth state
   const { children, loading: childrenLoading } = useMyChildren()
   const [selectedChild, setSelectedChild] = useState(null)
   const [activeTab, setActiveTab] = useState('photos')

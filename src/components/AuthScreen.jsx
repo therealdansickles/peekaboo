@@ -4,7 +4,7 @@ import { sendMagicLink } from '../lib/auth'
 import { supabase } from '../lib/supabase'
 import { authEvents } from '../lib/analytics'
 
-export default function AuthScreen({ onBack, onSuccess }) {
+export default function AuthScreen({ onBack }) {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)

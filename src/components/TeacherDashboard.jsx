@@ -16,8 +16,8 @@ const DEMO_CLASSROOM = {
 }
 
 export default function TeacherDashboard({ onBack }) {
-  const { profile } = useAuth()
-  const { classrooms, loading: classroomsLoading } = useTeacherClassrooms()
+  useAuth() // Check auth state
+  const { classrooms } = useTeacherClassrooms()
   const [selectedClassroom, setSelectedClassroom] = useState(null)
   const [activeTab, setActiveTab] = useState('photos')
   const [showUpload, setShowUpload] = useState(false)

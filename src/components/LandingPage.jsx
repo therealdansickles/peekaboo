@@ -1,10 +1,11 @@
 import { Camera, Heart, ChevronRight, Lock, Eye, EyeOff, Clock, Shield } from 'lucide-react'
 import { appEvents } from '../lib/analytics'
 
-function SecurityBadge({ label, icon: Icon }) {
+function SecurityBadge({ label, icon }) {
+  const IconComponent = icon
   return (
     <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium">
-      <Icon size={12} />
+      <IconComponent size={12} />
       <span>{label}</span>
     </div>
   )

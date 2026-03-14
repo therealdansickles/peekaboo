@@ -276,12 +276,13 @@ function ParentHelp() {
   )
 }
 
-function HelpSection({ icon: Icon, iconColor, iconBg, title, children }) {
+function HelpSection({ icon, iconColor, iconBg, title, children }) {
+  const IconComponent = icon
   return (
     <div className="bg-gray-50 rounded-xl p-4">
       <div className="flex items-center gap-3 mb-3">
         <div className={`w-8 h-8 ${iconBg} rounded-lg flex items-center justify-center`}>
-          <Icon size={18} className={iconColor} />
+          <IconComponent size={18} className={iconColor} />
         </div>
         <h3 className="font-semibold text-gray-900">{title}</h3>
       </div>
