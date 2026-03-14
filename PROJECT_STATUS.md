@@ -40,6 +40,9 @@ A secure preschool photo sharing app where:
 - [x] **Competitive research & pricing** (docs/GROWTH_RESEARCH.md)
 - [x] **Onboarding emails** (docs/ONBOARDING_EMAILS.md)
 - [x] **User guides** (docs/TEACHER_GUIDE.md, docs/PARENT_GUIDE.md)
+- [x] **Privacy Policy** (docs/PRIVACY_POLICY.md)
+- [x] **Terms of Service** (docs/TERMS_OF_SERVICE.md)
+- [x] **Founder blog post** (docs/BLOG_WHY_WE_BUILT_PEEKABOO.md)
 
 ### BLOCKERS - Must Fix Before Launch
 - [ ] **Configure Supabase redirect URLs** (15 min) - See instructions below

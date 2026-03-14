@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Eye, Mail, Loader2, Check, ArrowLeft } from 'lucide-react'
 import { sendMagicLink } from '../lib/auth'
 import { supabase } from '../lib/supabase'
+import { authEvents } from '../lib/analytics'
 
 export default function AuthScreen({ onBack, onSuccess }) {
   const [email, setEmail] = useState('')
@@ -21,8 +22,10 @@ export default function AuthScreen({ onBack, onSuccess }) {
         throw new Error('Supabase not configured. Please add your API keys to .env')
       }
       await sendMagicLink(email)
+      authEvents.magicLinkRequested()
       setSent(true)
     } catch (err) {
+      authEvents.signInFailed(err.message)
       setError(err.message)
     } finally {
       setLoading(false)

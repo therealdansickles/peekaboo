@@ -1,4 +1,5 @@
 import { Camera, Heart, ChevronRight, Lock, Eye, EyeOff, Clock, Shield } from 'lucide-react'
+import { appEvents } from '../lib/analytics'
 
 function SecurityBadge({ label, icon: Icon }) {
   return (
@@ -10,6 +11,11 @@ function SecurityBadge({ label, icon: Icon }) {
 }
 
 export default function LandingPage({ onSelectRole }) {
+  const handleRoleSelect = (role) => {
+    appEvents.roleSelected(role)
+    onSelectRole(role)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-amber-50 flex flex-col">
       {/* Header */}
@@ -47,7 +53,7 @@ export default function LandingPage({ onSelectRole }) {
         {/* Role Selection */}
         <div className="w-full max-w-sm space-y-3">
           <button
-            onClick={() => onSelectRole('teacher')}
+            onClick={() => handleRoleSelect('teacher')}
             className="w-full p-4 bg-white border-2 border-gray-100 rounded-2xl flex items-center gap-4 hover:border-violet-200 hover:bg-violet-50 transition-all group"
           >
             <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center group-hover:bg-violet-200 transition-colors">
@@ -61,7 +67,7 @@ export default function LandingPage({ onSelectRole }) {
           </button>
 
           <button
-            onClick={() => onSelectRole('parent')}
+            onClick={() => handleRoleSelect('parent')}
             className="w-full p-4 bg-white border-2 border-gray-100 rounded-2xl flex items-center gap-4 hover:border-amber-200 hover:bg-amber-50 transition-all group"
           >
             <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center group-hover:bg-amber-200 transition-colors">

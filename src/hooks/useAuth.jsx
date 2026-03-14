@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 import { supabase } from '../lib/supabase'
 import { getProfile } from '../lib/auth'
+import { identify, reset as resetAnalytics, authEvents } from '../lib/analytics'
+import { setUser as setSentryUser, clearUser as clearSentryUser } from '../lib/sentry'
 
 const AuthContext = createContext({})
 
@@ -39,6 +41,9 @@ export function AuthProvider({ children }) {
         } else {
           setProfile(null)
           setLoading(false)
+          // Reset analytics and error tracking on sign-out
+          resetAnalytics()
+          clearSentryUser()
         }
       }
     )
@@ -50,6 +55,16 @@ export function AuthProvider({ children }) {
     try {
       const profile = await getProfile()
       setProfile(profile)
+
+      // Identify user in analytics and error tracking (role only, no PII)
+      if (profile?.id) {
+        identify(profile.id, {
+          role: profile.role,
+          createdAt: profile.created_at,
+        })
+        setSentryUser(profile.id, profile.role)
+        authEvents.signedIn(profile.role)
+      }
     } catch (error) {
       console.error('Error loading profile:', error)
     } finally {

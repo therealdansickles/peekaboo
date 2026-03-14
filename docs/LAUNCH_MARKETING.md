@@ -573,18 +573,20 @@ Update your app to try it: peekaboo.app
 ### Legal & Compliance
 
 #### Privacy
+- [x] Privacy Policy drafted (docs/PRIVACY_POLICY.md)
+- [x] Privacy Policy covers COPPA considerations
+- [x] Data collection practices documented
 - [ ] Privacy Policy published at peekaboo.app/privacy
-- [ ] Privacy Policy covers COPPA considerations
-- [ ] Data collection practices documented
 - [ ] Cookie consent (if applicable)
-- [ ] GDPR-compliant (if serving EU)
-- [ ] CCPA-compliant (if serving California)
+- [x] GDPR-compliant (if serving EU)
+- [x] CCPA-compliant (if serving California)
 
 #### Terms
+- [x] Terms of Service drafted (docs/TERMS_OF_SERVICE.md)
+- [x] Acceptable use policy defined
+- [x] User responsibilities outlined
+- [x] Limitation of liability included
 - [ ] Terms of Service published at peekaboo.app/terms
-- [ ] Acceptable use policy defined
-- [ ] User responsibilities outlined
-- [ ] Limitation of liability included
 
 ---
 
@@ -639,10 +641,10 @@ Update your app to try it: peekaboo.app
 - [ ] Bio copy consistent
 
 #### Content
-- [ ] Launch announcement drafted (LinkedIn)
-- [ ] Launch announcement drafted (Twitter)
+- [x] Launch announcement drafted (LinkedIn) — See Social Media Post Templates section
+- [x] Launch announcement drafted (Twitter) — See Social Media Post Templates section
 - [ ] Press release drafted (optional)
-- [ ] Blog post drafted: "Why we built Peekaboo"
+- [x] Blog post drafted: "Why we built Peekaboo" (docs/BLOG_WHY_WE_BUILT_PEEKABOO.md)
 
 ---
 

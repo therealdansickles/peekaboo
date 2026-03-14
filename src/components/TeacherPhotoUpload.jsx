@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { Camera, Upload, X, Check, Users, Send, Shield, Loader2, Image as ImageIcon } from 'lucide-react'
 import { uploadPhotos } from '../lib/storage'
+import { photoEvents } from '../lib/analytics'
 
 // Demo children for when Supabase isn't configured
 const DEMO_CHILDREN = [
@@ -123,6 +124,9 @@ export default function TeacherPhotoUpload({
         await uploadPhotos(files, classroomId, selectedChildren, caption)
       }
 
+      // Track successful upload
+      photoEvents.uploaded(files.length, selectedChildren.length)
+
       setSuccess(true)
       setTimeout(() => {
         setFiles([])
@@ -133,6 +137,8 @@ export default function TeacherPhotoUpload({
         onUploadComplete?.()
       }, 2000)
     } catch (err) {
+      // Track upload failure
+      photoEvents.uploadFailed(err.message || 'Unknown error', files.length)
       setError(err.message || 'Upload failed. Please try again.')
     } finally {
       setUploading(false)

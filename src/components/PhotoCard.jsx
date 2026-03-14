@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Heart, Download, Clock, Lock, Trash2, Users } from 'lucide-react'
+import { photoEvents } from '../lib/analytics'
+import { useAppReview } from '../hooks/useAppReview'
 
 export default function PhotoCard({
   photo,
@@ -10,6 +12,18 @@ export default function PhotoCard({
 }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const viewTrackedRef = useRef(false)
+  const { trackPhotoView } = useAppReview()
+
+  // Track photo view when image loads (only once per component mount)
+  useEffect(() => {
+    if (imageLoaded && !viewTrackedRef.current && !compact) {
+      viewTrackedRef.current = true
+      photoEvents.viewed()
+      // Track for in-app review prompt
+      trackPhotoView()
+    }
+  }, [imageLoaded, compact, trackPhotoView])
 
   const timeAgo = (dateString) => {
     const date = new Date(dateString)
@@ -40,9 +54,21 @@ export default function PhotoCard({
       a.click()
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
+
+      // Track download
+      photoEvents.downloaded()
     } catch (e) {
       console.error('Download failed:', e)
     }
+  }
+
+  const handleFavorite = () => {
+    if (photo.isFavorited) {
+      photoEvents.unfavorited()
+    } else {
+      photoEvents.favorited()
+    }
+    onFavorite?.(photo.id)
   }
 
   if (compact) {
@@ -108,7 +134,7 @@ export default function PhotoCard({
           </div>
           <div className="flex gap-1">
             <button
-              onClick={() => onFavorite?.(photo.id)}
+              onClick={handleFavorite}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <Heart
