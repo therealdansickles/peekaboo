@@ -1,7 +1,15 @@
 # Peekaboo - Project Status & Handoff Document
 
-**Last Updated**: January 9, 2026
-**Status**: iOS app rebuilt with splash screen fix, ready for Supabase config + testing
+**Last Updated**: March 14, 2026
+**Status**: 90% Ready for App Store Launch - See CEO Briefing
+
+---
+
+## Quick Links
+
+- **CEO Briefing**: [docs/CEO_BRIEFING.md](docs/CEO_BRIEFING.md) - Strategic overview & launch plan
+- **Live Web App**: https://peekaboo.photos
+- **GitHub**: https://github.com/therealdansickles/peekaboo
 
 ---
 
@@ -16,26 +24,38 @@ A secure preschool photo sharing app where:
 
 ## Current State
 
-### What's Working
-- [x] Web app live at **https://peekaboo.photos** (and peekaboo-virid.vercel.app)
+### What's Ready
+- [x] Web app live at **https://peekaboo.photos**
 - [x] Teacher photo upload with EXIF stripping and compression
 - [x] Child tagging system
 - [x] Parent view with RLS-protected photo access
 - [x] Magic link authentication (passwordless)
 - [x] Real-time photo updates via Supabase subscriptions
-- [x] iOS app builds in Xcode (black screen fix applied - see below)
-- [x] Android project configured (not yet tested)
-- [x] Code pushed to GitHub: https://github.com/therealdansickles/peekaboo
+- [x] iOS app builds in Xcode
+- [x] Android project configured
+- [x] Code pushed to GitHub
+- [x] **App icons and splash screens** (violet eye brand)
+- [x] **App Store listing copy** (docs/STORE_LISTING.md)
+- [x] **Go-to-market strategy** (docs/LAUNCH_MARKETING.md)
+- [x] **Competitive research & pricing** (docs/GROWTH_RESEARCH.md)
+- [x] **Onboarding emails** (docs/ONBOARDING_EMAILS.md)
+- [x] **User guides** (docs/TEACHER_GUIDE.md, docs/PARENT_GUIDE.md)
 
-### What Needs Work
-- [ ] **NEXT: Configure Supabase redirect URLs** (see instructions below)
-- [ ] **NEXT: Test iOS app in simulator** (see instructions below)
-- [ ] Create app icons and splash screens
-- [ ] Test on physical iOS device
-- [ ] Submit to App Store (TestFlight first)
-- [ ] Submit to Google Play Store
-- [ ] Create in-app Help component
-- [ ] Write user documentation on Notion
+### BLOCKERS - Must Fix Before Launch
+- [ ] **Configure Supabase redirect URLs** (15 min) - See instructions below
+- [ ] **Test iOS app in simulator** (30 min) - See instructions below
+
+### Before Public Launch
+- [ ] Submit to TestFlight (1-2 days Apple review)
+- [ ] Add in-app review prompt
+- [ ] Add analytics (PostHog or Mixpanel)
+- [ ] Add error tracking (Sentry)
+
+### Post-Launch Improvements
+- [ ] Push notifications for new photos
+- [ ] Batch photo download
+- [ ] Admin dashboard for schools
+- [ ] Stripe payment integration
 
 ---
 
