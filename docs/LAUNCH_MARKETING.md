@@ -433,4 +433,273 @@ Update your app to try it: peekaboo.app
 
 ---
 
+---
+
+## Pre-Launch Checklist
+
+### App Store Submission (iOS)
+
+#### App Store Connect Setup
+- [ ] Apple Developer account active ($99/year)
+- [ ] App ID created in Developer portal
+- [ ] App Store Connect listing created
+- [ ] Bundle ID matches Capacitor config
+
+#### App Store Assets
+- [ ] App icon (1024x1024, no transparency, no rounded corners)
+- [ ] Screenshots: iPhone 6.7" (1290x2796) — 5 required
+- [ ] Screenshots: iPhone 6.5" (1284x2778) — 5 required
+- [ ] Screenshots: iPhone 5.5" (1242x2208) — 5 optional but recommended
+- [ ] App Preview video (optional, 15-30 sec, portrait)
+- [ ] Promotional text (170 chars)
+
+#### Metadata
+- [ ] App name: "Peekaboo"
+- [ ] Subtitle: "Secure Preschool Photo Sharing"
+- [ ] Description (4000 chars max) — see STORE_LISTING.md
+- [ ] Keywords (100 chars) — see STORE_LISTING.md
+- [ ] What's New text
+- [ ] Support URL: peekaboo.app/help
+- [ ] Marketing URL: peekaboo.app
+- [ ] Privacy Policy URL: peekaboo.app/privacy
+
+#### Technical Requirements
+- [ ] Provisioning profile (distribution)
+- [ ] Code signing configured
+- [ ] Build number incremented
+- [ ] Version number set (1.0.0)
+- [ ] Archive built in Xcode
+- [ ] Tested on physical device
+
+#### App Review Preparation
+- [ ] Demo account credentials ready (if needed)
+- [ ] App Review Information notes written
+- [ ] Contact info for reviewer provided
+- [ ] No placeholder content in app
+- [ ] All external links working
+
+---
+
+### Google Play Submission (Android)
+
+#### Play Console Setup
+- [ ] Google Play Developer account active ($25 one-time)
+- [ ] App created in Play Console
+- [ ] Internal testing track set up
+
+#### Store Listing Assets
+- [ ] App icon (512x512)
+- [ ] Feature graphic (1024x500)
+- [ ] Screenshots: Phone (2-8 images, 16:9 or 9:16)
+- [ ] Screenshots: 7" tablet (optional)
+- [ ] Screenshots: 10" tablet (optional)
+- [ ] Promo video (YouTube, optional)
+
+#### Metadata
+- [ ] Title: "Peekaboo"
+- [ ] Short description (80 chars) — see STORE_LISTING.md
+- [ ] Full description (4000 chars) — see STORE_LISTING.md
+- [ ] App category: Education
+- [ ] Content rating questionnaire completed
+- [ ] Target audience: Teachers, Parents
+- [ ] Privacy Policy URL
+
+#### Technical Requirements
+- [ ] Signed APK or AAB (Android App Bundle)
+- [ ] Version code incremented
+- [ ] Version name set (1.0.0)
+- [ ] Minimum SDK: 24 (Android 7.0)
+- [ ] Target SDK: 34 (Android 14)
+- [ ] Tested on multiple devices
+
+#### Data Safety
+- [ ] Data safety form completed
+- [ ] Data collection disclosure accurate
+- [ ] Data sharing practices documented
+- [ ] Account deletion info provided
+
+---
+
+### Backend Readiness
+
+#### Supabase Configuration
+- [ ] Production project created
+- [ ] RLS policies verified and tested
+- [ ] Storage buckets configured
+- [ ] Email auth enabled (magic links)
+- [ ] Rate limiting configured
+- [ ] Backups enabled
+
+#### Environment Variables
+- [ ] VITE_SUPABASE_URL set (production)
+- [ ] VITE_SUPABASE_ANON_KEY set (production)
+- [ ] No development keys in production
+
+#### Security
+- [ ] RLS policies prevent unauthorized access
+- [ ] EXIF stripping confirmed working
+- [ ] Signed URLs expiring correctly
+- [ ] No exposed service keys in client
+- [ ] CORS configured correctly
+
+---
+
+### Web App Readiness
+
+#### Vercel Deployment
+- [ ] Production deployment live
+- [ ] Custom domain configured (peekaboo.app)
+- [ ] SSL certificate active
+- [ ] Environment variables set
+- [ ] Preview deployments disabled or protected
+
+#### Performance
+- [ ] Lighthouse score 90+ (Performance)
+- [ ] Lighthouse score 90+ (Accessibility)
+- [ ] Images optimized
+- [ ] JS bundle size reasonable (<500KB)
+- [ ] No console errors in production
+
+#### SEO & Meta
+- [ ] Title tags on all pages
+- [ ] Meta descriptions on key pages
+- [ ] Open Graph tags for social sharing
+- [ ] Favicon configured
+- [ ] Robots.txt configured
+- [ ] Sitemap generated
+
+---
+
+### Legal & Compliance
+
+#### Privacy
+- [ ] Privacy Policy published at peekaboo.app/privacy
+- [ ] Privacy Policy covers COPPA considerations
+- [ ] Data collection practices documented
+- [ ] Cookie consent (if applicable)
+- [ ] GDPR-compliant (if serving EU)
+- [ ] CCPA-compliant (if serving California)
+
+#### Terms
+- [ ] Terms of Service published at peekaboo.app/terms
+- [ ] Acceptable use policy defined
+- [ ] User responsibilities outlined
+- [ ] Limitation of liability included
+
+---
+
+### Email Infrastructure
+
+#### Transactional Email
+- [ ] Email provider configured (Resend, Postmark, etc.)
+- [ ] From address verified (hello@peekaboo.app)
+- [ ] Reply-to address configured
+- [ ] Magic link emails tested
+- [ ] Photo notification emails tested
+
+#### Marketing Email
+- [ ] Email list platform selected (Loops, ConvertKit, etc.)
+- [ ] Welcome sequence loaded
+- [ ] Unsubscribe link working
+- [ ] CAN-SPAM compliant footer
+
+---
+
+### Analytics Setup
+
+#### Product Analytics
+- [ ] Analytics SDK installed (PostHog, Mixpanel, etc.)
+- [ ] User identification configured
+- [ ] Core events tracked (see ANALYTICS_GUIDE.md)
+- [ ] First dashboard created
+- [ ] Email reports configured
+
+#### App Store Analytics
+- [ ] App Store Connect analytics enabled
+- [ ] Google Play Console analytics enabled
+- [ ] Review monitoring set up (AppFollow or manual)
+
+---
+
+### Marketing Materials
+
+#### Website
+- [ ] Landing page live at peekaboo.app
+- [ ] Hero messaging finalized
+- [ ] Screenshots/mockups on homepage
+- [ ] Signup/waitlist form working
+- [ ] Help/FAQ section ready
+
+#### Social
+- [ ] Twitter/X account created (@PeekabooApp)
+- [ ] LinkedIn page created
+- [ ] Facebook page created (optional)
+- [ ] Instagram account created (optional)
+- [ ] Profile photos consistent across platforms
+- [ ] Bio copy consistent
+
+#### Content
+- [ ] Launch announcement drafted (LinkedIn)
+- [ ] Launch announcement drafted (Twitter)
+- [ ] Press release drafted (optional)
+- [ ] Blog post drafted: "Why we built Peekaboo"
+
+---
+
+### Pilot Schools
+
+- [ ] 2-3 pilot schools confirmed
+- [ ] Teachers onboarded and trained
+- [ ] Parents invited and active
+- [ ] Feedback collected
+- [ ] Testimonials requested
+- [ ] App Store review requests sent
+
+---
+
+### Support Readiness
+
+#### Documentation
+- [ ] Teacher Guide complete (docs/TEACHER_GUIDE.md)
+- [ ] Parent Guide complete (docs/PARENT_GUIDE.md)
+- [ ] FAQ page live
+- [ ] Help center or support email ready
+
+#### Monitoring
+- [ ] Error tracking enabled (Sentry or similar)
+- [ ] Uptime monitoring configured (UptimeRobot or similar)
+- [ ] Alerting for critical errors
+- [ ] On-call process defined (even if just founder)
+
+---
+
+### Launch Day Checklist
+
+#### Morning (Before Announcement)
+- [ ] Verify all services are up
+- [ ] Confirm app is live in App Store
+- [ ] Confirm app is live in Google Play
+- [ ] Test magic link flow end-to-end
+- [ ] Test photo upload flow end-to-end
+
+#### Launch Announcement
+- [ ] Send email to waiting list
+- [ ] Post on LinkedIn
+- [ ] Post on Twitter
+- [ ] Post on Facebook (personal)
+- [ ] Text/DM close network
+
+#### Monitor
+- [ ] Watch App Store downloads
+- [ ] Watch signup metrics
+- [ ] Monitor error tracking
+- [ ] Respond to any support emails
+
+#### End of Day
+- [ ] Screenshot Day 1 metrics
+- [ ] Note any issues encountered
+- [ ] Plan Day 2 follow-ups
+
+---
+
 *Document prepared by Growth Agent. For questions, contact the project owner.*
