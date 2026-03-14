@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Camera, MessageCircle, Eye, Shield, Users, Image as ImageIcon, RefreshCw, Loader2 } from 'lucide-react'
+import { Camera, MessageCircle, Eye, Shield, Users, Image as ImageIcon, RefreshCw, Loader2, HelpCircle } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useTeacherClassrooms } from '../hooks/useClassrooms'
 import { useChildren } from '../hooks/useChildren'
 import { usePhotos } from '../hooks/usePhotos'
 import TeacherPhotoUpload from './TeacherPhotoUpload'
 import PhotoCard from './PhotoCard'
+import HelpModal from './HelpModal'
 
 // Demo data when Supabase isn't configured
 const DEMO_CLASSROOM = {
@@ -20,6 +21,7 @@ export default function TeacherDashboard({ onBack }) {
   const [selectedClassroom, setSelectedClassroom] = useState(null)
   const [activeTab, setActiveTab] = useState('photos')
   const [showUpload, setShowUpload] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
 
   // Use first classroom or demo
   const classroom = selectedClassroom || classrooms[0] || DEMO_CLASSROOM
@@ -53,6 +55,9 @@ export default function TeacherDashboard({ onBack }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Help Modal */}
+      <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} defaultTab="teacher" />
+
       {/* Header */}
       <div className="bg-white border-b border-gray-100 px-4 py-3 sticky top-0 z-10">
         <div className="flex items-center justify-between">
@@ -65,7 +70,13 @@ export default function TeacherDashboard({ onBack }) {
             </div>
             <span className="font-semibold text-gray-900">Teacher Dashboard</span>
           </div>
-          <div className="w-12" />
+          <button
+            onClick={() => setShowHelp(true)}
+            className="p-2 hover:bg-violet-50 rounded-full transition-colors"
+            title="Help"
+          >
+            <HelpCircle size={20} className="text-violet-500" />
+          </button>
         </div>
       </div>
 

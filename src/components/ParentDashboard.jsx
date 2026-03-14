@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { Heart, Image as ImageIcon, MessageCircle, Lock, Clock, Users, RefreshCw, Loader2 } from 'lucide-react'
+import { Heart, Image as ImageIcon, MessageCircle, Lock, Clock, Users, RefreshCw, Loader2, HelpCircle } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useMyChildren } from '../hooks/useChildren'
 import { usePhotos } from '../hooks/usePhotos'
 import PhotoCard from './PhotoCard'
+import HelpModal from './HelpModal'
 
 export default function ParentDashboard({ onBack }) {
   const { profile } = useAuth()
   const { children, loading: childrenLoading } = useMyChildren()
   const [selectedChild, setSelectedChild] = useState(null)
   const [activeTab, setActiveTab] = useState('photos')
+  const [showHelp, setShowHelp] = useState(false)
 
   // Get the active child (first one by default)
   const activeChild = selectedChild || children[0]
@@ -74,6 +76,9 @@ export default function ParentDashboard({ onBack }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Help Modal */}
+      <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} defaultTab="parent" />
+
       {/* Header */}
       <div className="bg-white border-b border-gray-100 px-4 py-3 sticky top-0 z-10">
         <div className="flex items-center justify-between">
@@ -86,7 +91,13 @@ export default function ParentDashboard({ onBack }) {
             </div>
             <span className="font-semibold text-gray-900">Parent View</span>
           </div>
-          <div className="w-12" />
+          <button
+            onClick={() => setShowHelp(true)}
+            className="p-2 hover:bg-amber-50 rounded-full transition-colors"
+            title="Help"
+          >
+            <HelpCircle size={20} className="text-amber-500" />
+          </button>
         </div>
       </div>
 
