@@ -50,6 +50,7 @@ A secure preschool photo sharing app where:
 - [x] **Referral Program** (docs/REFERRAL_PROGRAM.md)
 - [x] **Review Solicitation Strategy** (docs/REVIEW_SOLICITATION.md)
 - [x] **Analytics Guide** (docs/ANALYTICS_GUIDE.md)
+- [x] **90-Day Content Calendar** (docs/CONTENT_CALENDAR.md)
 - [x] **In-app review prompt** (useAppReview hook)
 - [x] **Analytics integration** (PostHog, privacy-first)
 - [x] **Error tracking** (Sentry, production-only)
