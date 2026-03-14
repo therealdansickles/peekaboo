@@ -16,6 +16,20 @@
 
 ## Step 2: Prepare App for Release
 
+### Play App Signing (Recommended)
+
+Google Play App Signing provides secure key management where Google manages your app signing key:
+
+1. In Play Console, go to **Release** → **Setup** → **App signing**
+2. Choose "Let Google manage and protect your app signing key"
+3. Export your upload key for signing builds locally
+4. Google re-signs your app with the app signing key for distribution
+
+**Benefits:**
+- Key recovery if you lose your upload key
+- Smaller app sizes with APK optimization
+- Required for Android App Bundles (.aab)
+
 ### Build Configuration
 
 Edit `android/app/build.gradle`:
@@ -175,14 +189,27 @@ Perfect for preschools, daycares, and childcare centers that want to share preci
 
 ## Step 5: Content Rating
 
-1. Go to Policy → App content → Content rating
-2. Complete the IARC questionnaire
-3. Typical answers for Peekaboo:
-   - No violence
-   - No sexual content
-   - No profanity
-   - No user-generated content (photos are teacher-generated)
-   - Handles user data (photos, email)
+1. Go to **Policy** → **App content** → **Content rating**
+2. Click "Start questionnaire"
+3. Select category: **Utility, Productivity, Communication, or Other**
+
+### IARC Questionnaire Answers for Peekaboo
+
+| Question | Answer | Reason |
+|----------|--------|--------|
+| Does the app contain violence? | No | Photo sharing only |
+| Sexual content or nudity? | No | Family-friendly content |
+| References to drugs/alcohol/tobacco? | No | N/A |
+| Profanity or crude humor? | No | N/A |
+| Gambling or simulated gambling? | No | N/A |
+| User-generated content? | No* | Photos are teacher-uploaded, not open UGC |
+| User interaction features? | Yes | Teachers share with authorized parents |
+| Shares user location? | No | No location tracking |
+| Allows purchases? | No | Free app |
+
+*Note: Although photos are uploaded by teachers, this is controlled content within a closed system, not open user-generated content.
+
+**Expected Rating:** Rated for ages 3+ (PEGI 3 / ESRB Everyone)
 
 ## Step 6: Privacy Policy
 
@@ -210,23 +237,48 @@ Fill out in Play Console → Policy → App content → Data safety:
 
 ## Step 8: Testing Tracks
 
-### Internal Testing (Recommended First)
+### Release Track Progression
 
-1. Create internal test track
-2. Add tester emails
-3. Upload .aab file
-4. Testers receive link to install
+```
+Internal Testing → Closed Testing → Open Testing (optional) → Production
+```
 
-### Closed Testing (Beta)
+### 1. Internal Testing (Start Here)
 
-1. Create closed testing track
-2. Define tester group (e.g., school staff)
-3. Upload .aab file
-4. Collect feedback before public launch
+- **Max testers:** 100 per track
+- **Review time:** None (instant distribution)
+- **Best for:** Core team, developers, QA
 
-### Production
+**Setup:**
+1. Go to **Release** → **Testing** → **Internal testing**
+2. Click "Create track" or use existing
+3. Add tester emails (must be Google accounts)
+4. Upload .aab file
+5. Testers receive opt-in link via email
 
-Only release to production after thorough testing!
+### 2. Closed Testing (Beta)
+
+- **Max testers:** Unlimited (via email lists or Google Groups)
+- **Review time:** Usually 1-3 days for first review
+- **Best for:** School staff, early adopter parents
+
+**Setup:**
+1. Go to **Release** → **Testing** → **Closed testing**
+2. Create testers list (email addresses)
+3. Upload .aab file and submit for review
+4. Share opt-in URL with testers after approval
+
+### 3. Open Testing (Optional)
+
+- **Max testers:** Unlimited public access
+- **Review time:** Full review process
+- **Best for:** Large-scale beta before production
+
+### 4. Production
+
+- **Full review required** (may take several days)
+- **Visible on Google Play Store**
+- Only release after thorough testing in earlier tracks!
 
 ## Step 9: Release Checklist
 
@@ -254,6 +306,89 @@ npx cap open android
 # Build → Generate Signed Bundle / APK → Android App Bundle
 # Upload the .aab file to Play Console
 ```
+
+## Common Rejection Reasons & How to Avoid Them
+
+### 1. Privacy Policy Issues
+
+**Rejection:** "Your app's privacy policy is missing or inaccessible"
+
+**Prevention:**
+- Ensure `https://peekaboo.photos/privacy` is live and accessible
+- Privacy policy must be hosted on a secure (HTTPS) URL
+- Must cover all data types mentioned in Data Safety form
+- Include contact information for privacy inquiries
+
+### 2. Data Safety Form Inconsistencies
+
+**Rejection:** "Your Data safety section doesn't match your app's behavior"
+
+**Prevention:**
+- Declare ALL data collected (email, photos, names)
+- If using any analytics (even Supabase telemetry), declare it
+- Review third-party SDKs for hidden data collection
+
+### 3. Target Audience & Content Issues
+
+**Rejection:** "App targets children but doesn't comply with Families Policy"
+
+**Prevention:**
+- Peekaboo is for **parents and teachers**, not children directly
+- Set target audience to **18+ or general audience** (not under 13)
+- Do NOT include ads or in-app purchases in child-directed content
+- Clearly state the app is for adult caregivers in store listing
+
+### 4. Broken Functionality
+
+**Rejection:** "App crashes or has broken features"
+
+**Prevention:**
+- Test on multiple Android versions (API 24+)
+- Test with slow/no network connectivity
+- Ensure Supabase connection handles errors gracefully
+- Test the full flow: login → view photos → logout
+
+### 5. Insufficient App Content
+
+**Rejection:** "App doesn't provide sufficient value or functionality"
+
+**Prevention:**
+- Ensure demo mode or onboarding shows app purpose
+- If auth is required, provide test credentials or screenshots
+- Include meaningful store listing description
+
+### 6. Login/Authentication Issues
+
+**Rejection:** "Unable to test core app functionality"
+
+**Prevention:**
+- Provide test account credentials in app review notes:
+  ```
+  Test credentials for review:
+  - Go to app
+  - Select "Teacher" role
+  - Enter email: test-reviewer@peekaboo.photos
+  - Check inbox for magic link (or provide direct test URL)
+  ```
+- Or implement a demo/guest mode for reviewers
+
+### 7. Permissions Without Justification
+
+**Rejection:** "App requests permissions without clear user benefit"
+
+**Prevention:**
+- Only request CAMERA permission when user taps "Take Photo"
+- Only request storage/photos permission when user uploads
+- Include runtime permission rationale strings in app
+
+### 8. Metadata Policy Violations
+
+**Rejection:** "Screenshots or description don't accurately represent app"
+
+**Prevention:**
+- Use actual app screenshots (not mockups)
+- Don't use keywords like "best", "#1", or "free" excessively
+- Don't mention other apps or brands in description
 
 ## Troubleshooting
 

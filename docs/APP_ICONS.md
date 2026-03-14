@@ -1,5 +1,29 @@
 # App Icons and Splash Screen Guide
 
+## Current Assets (Installed)
+
+The app icons and splash screens have been generated and installed:
+
+### Source Files
+
+Located in `resources/`:
+- `icon-source-1024x1024.png` - Master app icon (violet background, white eye)
+- `splash-source-1024x1024.png` - Master splash screen
+
+### iOS Assets (Installed)
+
+- **App Icon**: `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` (1024x1024)
+- **Splash Screen**: `ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732*.png`
+
+### Android Assets (Installed)
+
+- **Launcher Icons**: `android/app/src/main/res/mipmap-*/ic_launcher.png` (48-192px)
+- **Round Icons**: `android/app/src/main/res/mipmap-*/ic_launcher_round.png` (48-192px)
+- **Adaptive Foreground**: `android/app/src/main/res/mipmap-*/ic_launcher_foreground.png` (108-432px)
+- **Splash Screens**: `android/app/src/main/res/drawable*/splash.png` (480-2560px)
+
+---
+
 ## Brand Colors
 
 - **Primary**: Violet `#7C3AED` (brand color)

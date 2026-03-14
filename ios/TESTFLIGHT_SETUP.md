@@ -237,6 +237,56 @@ Check that all plugins are App Store compatible. Remove any debug-only plugins.
 1. Check Apple Developer System Status
 2. Try Transporter app (App Store) as alternative upload method
 
+## Feedback Collection Process
+
+### In-App Feedback (TestFlight)
+
+TestFlight automatically adds a feedback mechanism:
+1. Testers shake their device or take a screenshot
+2. TestFlight prompts to send feedback
+3. Feedback goes to App Store Connect → TestFlight → Feedback
+
+### Monitoring Feedback
+
+1. Go to App Store Connect → TestFlight → Feedback
+2. Review:
+   - Screenshots from testers
+   - Device info (iOS version, device model)
+   - Crash logs (automatic)
+   - Written feedback
+
+### Crash Reports
+
+1. App Store Connect → TestFlight → Crashes
+2. Review crash reports with stack traces
+3. Xcode Organizer also shows crash logs (Xcode → Window → Organizer → Crashes)
+
+### Best Practices for Feedback
+
+1. **Weekly triage**: Review all feedback weekly
+2. **Prioritize crashes**: Fix crash bugs before feature bugs
+3. **Respond to testers**: Email them when issues are fixed
+4. **Update "What to Test"**: Guide testers to specific features each build
+5. **Create issues**: Convert actionable feedback into dev tasks
+
+### Sample Feedback Request Email
+
+```
+Hi [Tester Name],
+
+Thanks for testing Peekaboo! We'd love your feedback on:
+
+1. Was sign-in easy to complete?
+2. Could you view/upload photos as expected?
+3. Did anything crash or behave unexpectedly?
+4. What would make the app better for your school?
+
+Reply to this email or use TestFlight's built-in feedback (shake your phone while in the app).
+
+Thanks!
+The Peekaboo Team
+```
+
 ## Version Strategy
 
 | Build | When | Version | Build # |
